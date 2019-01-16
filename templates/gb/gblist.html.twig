@@ -1,0 +1,18 @@
+{# entries[] => name, email, text #}
+{# actions (route names): gbAdd, gbForm #}
+
+{# gb/gblist.html.twig #}
+{% extends 'gb/gbindex.html.twig' %}
+
+{% block gbContent %}
+    {% include 'flashbag.html.twig' %}
+    <p><a href="{{ path('gbForm') }}">&raquo; ADD NEW ENTRY</a></p>
+    {% for entry in entries %}
+        <div style="border:1px solid green">
+            <p>Name: {{ entry.name }}</p>
+            <p>Email: {{ entry.email }}</p>
+            <p>{{ entry.text|nl2br }}</p> {# if html: |raw #}
+        </div>
+    {% endfor %}
+    {{ dump(entries) }} {# Laravel: dd #}
+{% endblock %}

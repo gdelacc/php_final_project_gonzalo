@@ -1,0 +1,19 @@
+{# app/Resources/views/cars/onecar.html.twig #}
+{# @var car \AppBundle\Entity\Car #}
+{% extends 'cars/cars.html.twig' %}
+{% block carbody %}
+    {% set brand = car.carBrand is null ? "N/A" : car.carBrand.brandName %}
+    {% set brandId = car.carBrand is null ? 0 : car.carBrand.brandId %}
+    <table border="1">
+        <tr><td>Brand:</td><td>{{ brand }}<br/>
+         <a href="{{ path('carlist', { 'brandId': brandId }) }}">
+             DISPLAY CARS OF BRAND</a>
+            </td></tr>
+        <tr><td>Model:</td><td>{{ car.carModel }}</td></tr>
+        <tr><td>Visible:</td><td>{{ car.carVisible ? "YES" : "NO" }}</td></tr>
+        <tr><td>Price:</td><td>{{ car.carPrice}}</td></tr>
+        <tr><td>Inserted:</td><td>{{ car.carInserted|date('Y.m.d. H:i:s') }}</td></tr>
+        <tr><td>Modified:</td><td>{{ car.carModified|date('Y.m.d. H:i:s') }}</td></tr>
+    </table>
+    {{ dump(car) }}
+{% endblock %}

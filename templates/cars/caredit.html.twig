@@ -1,0 +1,8 @@
+{# app/Resources/views/cars/caredit.html.twig #}
+{% extends 'cars/cars.html.twig' %}
+{% block carbody %}
+    {% form_theme form 'form_table_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

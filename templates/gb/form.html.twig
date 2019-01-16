@@ -1,0 +1,22 @@
+{# Templates/gb/form.html.twig #}
+{%extends 'base.html.twig' %}
+{% block title %}ADD NEW ENTRY{% endblock %}
+{% block body %}
+    <form action="{{ path('gbAdd') }}" method="POST">
+        <table>
+            <tr><td>Name</td>
+                <td><input type="text" name="entry_name" /></td></tr>
+            <tr><td>Email</td>
+                <td><input type="email" name="entry_email" /></td></tr>
+            <tr><td colspan="2">
+                <textarea style="width:500px"
+                          name="entry_text"></textarea>
+                </td></tr>
+            <tr><td colspan="2"><input type="submit" value="GO" />
+                </td></tr>
+        </table>
+    </form>
+{% endblock %}
+{# in controller PHP, gbformAction:
+return $this->render('gb/form.html.twig');
+#}

@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        {% include 'navbar.html.twig' %}
+
+        <div class="alert alert-warning" id="error_msg" hidden>
+        	Action Failed.
+        </div>
+
+        <div class="container">
+        	<div class="table-responsive">
+        		<br />
+        		<table id="rental_list" class="table table-bordered table-striped">
+        			<thead>
+        				<tr>
+        					<th>Client Name</th>
+        					<th>Car Brand</th>
+        					<th>Car Model</th>
+        					<th>Price</th>
+        					<th>Start Date</th>
+        					<th>End Date</th>
+        					<th>Action</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        				{% for rental in rentals %}
+        				<tr>
+        					<td>{{rental.getClient().getClientName()}}</td>
+        					<td>{{rental.getCar().getCarBrand()}}</td>
+        					<td>{{rental.getCar().getCarModel()}}</td>
+        					<td>{{rental.getRentalPrice()}}</td>
+        					<td>{{rental.getStartDate().format('Y-m-d H:i:s')}}</td>
+        					<td>{{rental.getEndDate().format('Y-m-d H:i:s')}}</td>
+        					<td>
+        						<button type="button" class="btn btn-primary rental_edit_btn" data-id="{{rental.getRentalId()}}" data-clientid="{{rental.getClient().getClientId()}}" data-carid="{{rental.getCar().getCarId()}}" data-startdate="{{rental.getStartDate().format('Y-m-d H:i:s')}}" data-enddate="{{rental.getEndDate().format('Y-m-d H:i:s')}}" data-price="{{rental.getRentalPrice()}}">Edit</button>
+        						<button type="button" class="btn btn-warning rental_del_btn" data-id="{{rental.getRentalId()}}">Delete</button>
+        					</td>
+        				</tr>
+        				{% endfor %}
+        			</tbody>
+        		</table>
+        	</div>
+        	<div style="float: right;">
+        		<button type="button" class="btn btn-primary rental_add_btn">Add</button>
+        	</div>
+        </div>
+
+        <div class="modal fade" id="rentalEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        	<div class="modal-dialog" role="document">
+        		<div class="modal-content">
+        			<div class="modal-header">
+        				<h5 class="modal-title" id="exampleModalLabel">Rental Details</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+        			</div>
+					<form id="rental_form">
+	        			<div class="modal-body">
+        					<input type="text" class="form-control" id="rental_id" value="" hidden="">
+        					<div class="form-group">
+        						<label for="rental_clientid" class="col-form-label">Client Name:</label>
+        						<select class="form-control" id="rental_clientid">
+        						{% for client in clients %}
+        							<option value="{{client.getClientId()}}">{{client.getClientName()}}</option>
+        						{% endfor %}
+        						</select>
+        					</div>
+        					<div class="form-group">
+        						<label for="rental_carid" class="col-form-label">Car:</label>
+            					<select class="form-control" id="rental_carid">
+        						{% for car in cars %}
+        							<option value="{{car.getCarId()}}">{{car.getCarBrand().getBrandName()}} {{car.getCarModel()}}</option>
+        						{% endfor %}
+        						</select>
+        					</div>
+        					<div class="form-group">
+        						<label for="rental_price" class="col-form-label">Price:</label>
+            					<input type="text" class="form-control" id="rental_price" required="">
+        					</div>
+        					<div class="form-group">
+        						<label for="rental_start_date" class="col-form-label">Start Date:</label>
+            					<input type="text" class="form-control" id="rental_start_date" required="">
+        					</div>
+        					<div class="form-group">
+        						<label for="rental_end_date" class="col-form-label">End Date:</label>
+            					<input type="text" class="form-control" id="rental_end_date" required="">
+        					</div>
+	        			</div>
+	        			<div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					        <button type="submit" class="btn btn-primary">Save</button>
+					    </div>
+        			</form>
+        		</div>
+        	</div>
+        </div>
+
+        {% block mainpanel %}{% endblock %}
+    {% endif %}
+
+{% endblock %}

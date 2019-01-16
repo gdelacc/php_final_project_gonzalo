@@ -1,0 +1,26 @@
+{# templates/editor/editor.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}MY EDITOR{% endblock %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+
+    {% if app.session.get('user') is not empty %}
+        <p style="font-weight:bold;">LOGGED IN AS {{ app.session.get('user') }}</p>
+        <p><a href="{{ path('logout') }}">LOG OUT</a></p>
+    {% endif %}
+    {% if form is not empty %}
+        {% form_theme form 'form_table_layout.html.twig' %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endif %}
+    <hr/>
+    FILE CONTENTS:<br/>
+    {{ filetext|nl2br }}
+    <hr/>
+    SESSION CONTENTS:<br/>
+    {{ sessiontext|nl2br }}
+{% endblock %}

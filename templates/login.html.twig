@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+    {% if error %}
+        <p style="color:orange;font-weight:bold;">
+            {{ error.messageKey }}
+        </p>
+    {% endif %}
+    <center>
+    <img src="{{ asset('assets/img/obuda_cars_logo.png') }}" width="300px" style="margin-bottom: 50px;">
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+
+        <p style="color:green;font-size:22px">
+            HI {{ app.user.username }}!
+        </p>
+        <p><a href="{{ path('logout') }}">LOG OUT</a></p>
+
+    {% else %}
+        <form action="{{ path('login') }}" method="post" class="login-form login">
+            <h2>LOGIN</h2>
+            <div class="form-group">
+                <!-- CSRF = Cross Site Request Forgery -->
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}" />
+                User: <input type="email" name="_username"
+                             value="gonzalo@obuda.com" required/><br/>
+                Pass: <input type="password" name="_password" required/><br/>
+                <input type="submit" value="LOGIN" /></div>
+        </form>
+        <br/>
+        <a href="#" id="register-link"><h4>REGISTER</h4></a>
+        <form action="{{ path('register') }}" method="post" id="register-form" class="login-form register hide">
+            <div class="alert alert-danger alert-dismissible fade show hide" role="alert" id="div-register-message" style="width: 50%">
+                <strong>Error! </strong> <span id="span-register-message"></span>
+            </div>
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td> <input type="text" name="_name" required/></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" name="_username" value="{{ last_username }}" required/></td>
+                </tr>
+                <tr>
+                    <td>Pass:</td>
+                    <td><input type="password" id="pass1" name="_password" required/></td>
+                </tr>
+                <tr>
+                    <td>Pass again:</td>
+                    <td><input type="password" id="pass2" name="_password2" required/></td>
+                </tr>
+            </table>
+
+            <input type="submit" value="REGISTER" />
+        </form>
+
+    {% endif %}
+    {#
+    {% for value in app.user.roles %}
+        <li>{{ value }}</li>
+    {% endfor %}
+    #}
+
+   {# {% if is_granted('ROLE_ADMIN') %}
+        <p>You are an admin, sir...</p>
+    {% elseif is_granted("ROLE_USER")  %}
+        <p>You are a user...</p>
+    {% else %}
+        <p>You are NOT logged in...</p>
+    {% endif %}#}
+
+
+
+
+
+    </center>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        {% include 'navbar.html.twig' %}
+
+        <div class="alert alert-warning" id="error_msg" hidden>
+        	Action Failed.
+        </div>
+
+        <div class="container">
+        	<div class="table-responsive">
+        		<br />
+        		<table id="client_list" class="table table-bordered table-striped">
+        			<thead>
+        				<tr>
+        					<th>Client Name</th>
+        					<th>Client Last Name</th>
+        					<th>Client Phone Number</th>
+        					<th>Client Email Address</th>
+        					<th>Created Date</th>
+        					<th>Action</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        				{% for client in clients %}
+        				<tr>
+        					<td>{{client.getClientName()}}</td>
+        					<td>{{client.getClientLastname()}}</td>
+        					<td>{{client.getClientPhone()}}</td>
+        					<td>{{client.getClientEmail()}}</td>
+        					<td>{{client.getClientCreated().format('Y-m-d H:i:s')}}</td>
+        					<td>
+        						<button type="button" class="btn btn-primary client_edit_btn" data-id="{{client.getClientId()}}" data-name="{{client.getClientName()}}" data-lastname="{{client.getClientLastname()}}" data-phone="{{client.getClientPhone()}}" data-email="{{client.getClientEmail()}}">Edit</button>
+        						<button type="button" class="btn btn-warning client_del_btn" data-id="{{client.getClientId()}}">Delete</button>
+        					</td>
+        				</tr>
+        				{% endfor %}
+        			</tbody>
+        		</table>
+        	</div>
+        	<div style="float: right;">
+        		<button type="button" class="btn btn-primary client_add_btn">Add</button>
+        	</div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        	<div class="modal-dialog" role="document">
+        		<div class="modal-content">
+        			<div class="modal-header">
+        				<h5 class="modal-title" id="exampleModalLabel">Client Details</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+        			</div>
+					<form id="client_form">
+	        			<div class="modal-body">
+        					<input type="text" class="form-control" id="client_id" value="" hidden="">
+        					<div class="form-group">
+        						<label for="client_name" class="col-form-label">Client Name:</label>
+        						<input type="text" class="form-control" id="client_name" required="">
+        					</div>
+        					<div class="form-group">
+        						<label for="client_lastname" class="col-form-label">Client Last Name:</label>
+            					<input type="text" class="form-control" id="client_lastname" required="">
+        					</div>
+        					<div class="form-group">
+        						<label for="client_phone" class="col-form-label">Client Phone Number:</label>
+            					<input type="text" class="form-control" id="client_phone" required="">
+        					</div>
+        					<div class="form-group">
+        						<label for="client_email" class="col-form-label">Client Email Address:</label>
+            					<input type="email" class="form-control" id="client_email" required="" >
+        					</div>
+	        			</div>
+	        			<div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					        <button type="submit" class="btn btn-primary">Save</button>
+					    </div>
+        			</form>
+        		</div>
+        	</div>
+        </div>
+
+        {% block mainpanel %}{% endblock %}
+    {% endif %}
+
+{% endblock %}

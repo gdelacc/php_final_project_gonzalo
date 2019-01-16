@@ -1,0 +1,23 @@
+{# Templates/gb/list.html.twig #}
+{# ctrl+shift+a => plugins #}
+{# PHP annotaions, TWIG support, Symfony plugin #}
+{# Enable symfony plugin: File/Langages/PHP/Symfony #}
+{% extends 'base.html.twig' %}
+
+{% block title %}My Guestbook{% endblock %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+    <a href="{{ path('gbForm') }}">&raquo; ADD NEW ENTRY</a> <hr />
+    {# entries[] => entry { name, email, text  } #}
+    {% for entry in entries %}
+        <div style="border: 1px solid blue">
+            <p>Name: {{ entry.name }}</p>
+            <p>Email: {{ entry.email }}</p>
+            <p>{{ entry.text|nl2br }}</p>
+        </div>
+        <hr/>
+    {% endfor %}
+    {{ dump(entries) }}
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends 'votes/votes.html.twig' %}
+
+{% block votecontent %}
+    {% for question in questions %}
+        <p>
+            <a href="{{ path('votes_listc', { 'question': question.qu_id } ) }}">{{ question.qu_text }}</a>
+            [<a href="{{ path('votes_delq', { 'question': question.qu_id } ) }}">DELETE</a>]
+        </p>
+    {% endfor %}
+
+    <p>Insert new question:</p>
+    {% form_theme form 'form_table_layout.html.twig'  %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

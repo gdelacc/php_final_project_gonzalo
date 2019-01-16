@@ -1,0 +1,19 @@
+
+.hide{
+    display:none;
+}
+
+.login-form input{
+    background-image: none !important;
+    margin-bottom: 5px;
+}
+
+.login-form input[type=submit]{
+    border: 1px solid black;
+}
+
+.login-form input[type=text],
+.login-form input[type=email],
+.login-form input[type=password]{
+    width: 140px;
+}

@@ -1,0 +1,18 @@
+{% extends 'votes/votes.html.twig' %}
+
+{% block votecontent %}
+    <a href="{{ url('votes_listq') }}">BACK TO LIST</a>
+    {% for choice in choices %}
+        <p>
+            <a href="{{ path('votes_vote', { 'choice': choice.cho_id } ) }}">{{ choice.cho_text }}</a>
+            [{{ choice.cho_numvotes }} VOTES]
+            [<a href="{{ path('votes_delc', { 'choice': choice.cho_id } ) }}">DELETE</a>]
+        </p>
+    {% endfor %}
+
+    <p>Insert new choice:</p>
+    {% form_theme form 'form_table_layout.html.twig'  %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

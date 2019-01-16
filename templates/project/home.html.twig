@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'flashbag.html.twig' %}
+
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        {% include 'navbar.html.twig' %}
+
+        <div class="alert alert-warning" id="error_msg" hidden>
+        	Action Failed.
+        </div>
+
+        <div class="container">
+        	<div class="table-responsive">
+        		<br />
+        		<table id="car_list" class="table table-bordered table-striped">
+        			<thead>
+        				<tr>
+        					<th>Car Brand</th>
+        					<th>Car Model</th>
+        					<th>Price</th>
+        					<th>Create Date</th>
+        					<th>Action</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        				{% for car in cars %}
+        				<tr>
+        					<td>{{car.getCarBrand()}}</td>
+        					<td>{{car.getCarModel()}}</td>
+        					<td>{{car.getCarPrice()}}</td>
+        					<td>{{car.getCarInserted().format('Y-m-d H:i:s')}}</td>
+        					<td>
+        						<button type="button" class="btn btn-primary car_edit_btn" data-id="{{car.getCarId()}}" data-brand="{{car.getCarBrand().getBrandId()}}" data-model="{{car.getCarModel()}}" data-price="{{car.getCarPrice()}}">Edit</button>
+        						<button type="button" class="btn btn-warning car_del_btn" data-id="{{car.getCarId()}}">Delete</button>
+        					</td>
+        				</tr>
+        				{% endfor %}
+        			</tbody>
+        		</table>
+        	</div>
+        	<div style="float: right;">
+        		<button type="button" class="btn btn-primary car_add_btn">Add</button>
+        	</div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        	<div class="modal-dialog" role="document">
+        		<div class="modal-content">
+        			<div class="modal-header">
+        				<h5 class="modal-title" id="exampleModalLabel">Car Details</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+        			</div>
+					<form id="car_form">
+	        			<div class="modal-body">
+	        					<input type="text" class="form-control" id="car_id" value="" hidden="">
+	        					<div class="form-group">
+	        						<label for="car_brand" class="col-form-label">Car Brand:</label>
+	        						<select class="form-control" id="car_brand">
+	        						{% for brand in brands %}
+	        							<option value="{{brand.getBrandId}}">{{brand.getBrandName()}}</option>
+	        						{% endfor %}
+	        						</select>
+	        					</div>
+	        					<div class="form-group">
+	        						<label for="car_model" class="col-form-label">Car Model:</label>
+	            					<input type="text" class="form-control" id="car_model" required="">
+	        					</div>
+	        					<div class="form-group">
+	        						<label for="car_price" class="col-form-label">Price:</label>
+	            					<input type="text" class="form-control" id="car_price" required="">
+	        					</div>
+	        			</div>
+	        			<div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					        <button type="submit" class="btn btn-primary">Save</button>
+					    </div>
+        			</form>
+        		</div>
+        	</div>
+        </div>
+
+        {% block mainpanel %}{% endblock %}
+    {% endif %}
+
+{% endblock %}
